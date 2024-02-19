@@ -16,7 +16,7 @@ export default async function Table() {
       </div>
       <div>
         {events.map((event) => (
-          <div key={event.name}>
+          <div key={event.eventnumber}>
             <div>
               <div>
                 <p>{event.eventnumber}</p>
