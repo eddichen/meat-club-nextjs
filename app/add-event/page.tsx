@@ -1,13 +1,9 @@
-"use client";
+import { getUsers } from "@/lib/users";
 import AddEventForm from "@/components/add-event-form";
-import { APIProvider } from "@vis.gl/react-google-maps";
 
-export default function AddEvent() {
-  const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "";
+export default async function AddEvent() {
+  const userData = await getUsers();
+  const { rows: users } = userData;
 
-  return (
-    <APIProvider apiKey={API_KEY}>
-      <AddEventForm />
-    </APIProvider>
-  );
+  return <AddEventForm users={users as Users[]} />;
 }
