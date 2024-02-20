@@ -3,8 +3,21 @@
 import { useState } from "react";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-export default function ChosenByField({ users }: { users: Users[] }) {
+type ChosenByFieldProps = {
+  users: Users[];
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+export default function ChosenByField({
+  users,
+  handleChange,
+}: ChosenByFieldProps) {
   const [chosenByValue, setChosenByValue] = useState("");
+
+  const handleUserChange = (event: any) => {
+    setChosenByValue(event.target.value);
+    handleChange(event);
+  };
 
   return (
     <FormControl fullWidth>
@@ -12,10 +25,11 @@ export default function ChosenByField({ users }: { users: Users[] }) {
       <Select
         required
         label="Chosen by"
-        onChange={(e) => setChosenByValue(e.target.value)}
+        onChange={handleUserChange}
         value={chosenByValue}
         labelId="chosen-by"
         fullWidth
+        name="chosen-by"
       >
         {users.map((user) => (
           <MenuItem key={user.id} value={user.id}>
