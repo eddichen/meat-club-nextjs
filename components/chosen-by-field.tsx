@@ -29,7 +29,7 @@ export default function ChosenByField({
         value={chosenByValue}
         labelId="chosen-by"
         fullWidth
-        name="chosen-by"
+        name="chosenBy"
       >
         {users.map((user) => (
           <MenuItem key={user.id} value={user.id}>
