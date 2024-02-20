@@ -1,9 +1,15 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Marker, Map, useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
+import {
+  AdvancedMarker,
+  Map,
+  useMap,
+  useMapsLibrary,
+} from "@vis.gl/react-google-maps";
 import { Autocomplete, TextField, Box } from "@mui/material";
 import { debounce } from "@mui/material/utils";
+import { HandleFormProps } from "./add-event-form";
 
 const getOptions = (
   venues: google.maps.places.PlaceResult[] | null,
@@ -12,7 +18,11 @@ const getOptions = (
   return venues.map((venue) => venue.name);
 };
 
-export default function VenueField() {
+export default function VenueField({
+  handleVenue,
+}: {
+  handleVenue: ({ name, venue }: HandleFormProps) => void;
+}) {
   const [placesService, setPlacesService] =
     useState<google.maps.places.PlacesService | null>(null);
   const [venueOptions, setVenueOptions] = useState<
@@ -27,8 +37,6 @@ export default function VenueField() {
           placesService: google.maps.places.PlacesService,
           searchValue: string,
         ) => {
-          console.log("debounce", searchValue);
-
           placesService.nearbySearch(
             {
               bounds: new google.maps.LatLngBounds(
@@ -67,12 +75,19 @@ export default function VenueField() {
     }
 
     getPlaces(placesService, searchValue);
-  }, [getPlaces, placesService, searchValue]);
+    if (venueOptions && venueOptions.length > 0) {
+      handleVenue({
+        name: "venue",
+        venue: venueOptions?.find((venue) => venue.name === searchValue),
+      });
+    }
+  }, [getPlaces, placesService, searchValue, handleVenue, venueOptions]);
 
   return (
     <>
       <Box sx={{ height: "50vh", mb: 2 }}>
         <Map
+          mapId="61baed150fa492b8"
           defaultCenter={{ lat: 51.5285262, lng: -0.2664021 }}
           defaultZoom={11}
           gestureHandling={"greedy"}
@@ -80,7 +95,7 @@ export default function VenueField() {
         >
           {venueOptions &&
             venueOptions.map((venue) => (
-              <Marker
+              <AdvancedMarker
                 key={venue.place_id}
                 position={{
                   lat: venue.geometry?.location?.lat() || 0,
@@ -96,9 +111,9 @@ export default function VenueField() {
         freeSolo
         filterOptions={(x) => x}
         filterSelectedOptions
-        onInputChange={(event, newInputValue) => setSearchValue(newInputValue)}
+        onInputChange={(event, inputValue) => setSearchValue(inputValue)}
         renderInput={(params) => (
-          <TextField {...params} label="Add a venue" fullWidth />
+          <TextField {...params} label="Add a venue" name="venue" fullWidth />
         )}
         noOptionsText="No venues found"
         value={searchValue}
