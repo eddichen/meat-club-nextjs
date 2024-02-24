@@ -1,23 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { QueryResultRow } from "@vercel/postgres";
 
 type ChosenByFieldProps = {
-  users: Users[];
+  getUserOptions: () => Promise<QueryResultRow[]>;
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export default function ChosenByField({
-  users,
+  getUserOptions,
   handleChange,
 }: ChosenByFieldProps) {
   const [chosenByValue, setChosenByValue] = useState("");
+  const [users, setUsers] = useState<Users[]>([]);
 
   const handleUserChange = (event: any) => {
     setChosenByValue(event.target.value);
     handleChange(event);
   };
+
+  useEffect(() => {
+    const getUsers = async () => {
+      const users = await getUserOptions();
+      setUsers(users as Users[]);
+    };
+
+    getUsers();
+  }, [getUserOptions]);
 
   return (
     <FormControl fullWidth>

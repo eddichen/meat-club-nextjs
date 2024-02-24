@@ -5,28 +5,39 @@ import { APIProvider } from "@vis.gl/react-google-maps";
 import { Container, TextField, Button, Grid } from "@mui/material";
 import ChosenByField from "./chosen-by-field";
 import VenueField from "./venue-field";
+import { QueryResultRow } from "@vercel/postgres";
 
-export type HandleFormProps = {
-  name: string;
-  venue: google.maps.places.PlaceResult | undefined;
+type AddEventFormProps = {
+  getUserOptions: () => Promise<QueryResultRow[]>;
+  addLocation: (eventData: EventsFormData) => void;
 };
 
-export default function AddEventForm({ users }: { users: Users[] }) {
+export type HandleVenueProps = {
+  name: string;
+  venue: Venue;
+};
+
+export default function AddEventForm({
+  getUserOptions,
+  addLocation,
+}: AddEventFormProps) {
   const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "";
-  const [eventData, setEventData] = useState({});
+  const [eventData, setEventData] = useState({} as EventsFormData);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setEventData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleVenue = ({ name, venue }: HandleFormProps) => {
+  const handleVenue = ({ name, venue }: HandleVenueProps) => {
     setEventData((prevData) => ({ ...prevData, [name]: venue }));
   };
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
-    console.log("eventData", eventData);
+    if (Object.keys(eventData).length < 1)
+      return console.error("There has been an error retreiving the data");
+    addLocation(eventData);
   };
 
   return (
@@ -39,10 +50,10 @@ export default function AddEventForm({ users }: { users: Users[] }) {
             </Grid>
             <Grid item>
               <TextField
-                label="Name"
+                label="Residency"
                 helperText="For Pop-ups and Residencies in Venues"
                 fullWidth
-                name="name"
+                name="residency"
                 onInput={handleChange}
               />
             </Grid>
@@ -58,7 +69,18 @@ export default function AddEventForm({ users }: { users: Users[] }) {
               />
             </Grid>
             <Grid item>
-              <ChosenByField users={users} handleChange={handleChange} />
+              <TextField
+                label="Meat Club Number"
+                fullWidth
+                name="eventNumber"
+                onInput={handleChange}
+              />
+            </Grid>
+            <Grid item>
+              <ChosenByField
+                getUserOptions={getUserOptions}
+                handleChange={handleChange}
+              />
             </Grid>
             <Grid item>
               <Button type="submit" variant="contained" size="large" fullWidth>
