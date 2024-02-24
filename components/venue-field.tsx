@@ -130,7 +130,7 @@ export default function VenueField({ handleVenue }: VenueFieldProps) {
 
   return (
     <>
-      <Box sx={{ height: "50vh", mb: 2 }}>
+      <Box sx={{ height: "360px", mb: 2 }}>
         <Map
           mapId="61baed150fa492b8"
           defaultCenter={{ lat: 51.5285262, lng: -0.2664021 }}
