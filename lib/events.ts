@@ -14,25 +14,8 @@ export async function createEvents() {
 
   console.log(`Created "events" table`);
 
-  const events = await Promise.all([
-    sql`
-          INSERT INTO events (eventNumber, date, venueId, chosenBy)
-          VALUES (1, '01/06/2011', 1, 6)
-      `,
-    sql`
-          INSERT INTO events (eventNumber, date, venueId, chosenBy)
-          VALUES (10, '06/03/2012', 4, 8)
-    `,
-    sql`
-          INSERT INTO events (eventNumber, date, venueId, chosenBy)
-          VALUES (22, '05/03/2013', 2, 7)
-    `,
-  ]);
-  console.log(`Seeded ${events.length} events`);
-
   return {
     createTable,
-    events,
   };
 }
 
@@ -45,7 +28,6 @@ export async function getEvents() {
     e.date,
     l.residency,
     l.venue,
-    l.address,
     u.name AS chosenBy
   FROM
     events e
@@ -71,4 +53,13 @@ export async function getEvents() {
   }
 
   return eventsData;
+}
+
+export async function addEvent(eventData: EventData) {
+  const { eventNumber, date, venueId, chosenBy } = eventData;
+
+  const addEventRow = await sql`
+  INSERT INTO events (eventNumber, date, venueId, chosenBy)
+  VALUES (${eventNumber}, ${date}, ${venueId}, ${chosenBy})
+  `;
 }

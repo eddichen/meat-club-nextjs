@@ -6,32 +6,16 @@ export async function createLocations() {
       id SERIAL PRIMARY KEY,
       residency VARCHAR(255),
       venue VARCHAR(255) NOT NULL,
-      address VARCHAR(255),
+      lat FLOAT,
+      lng FLOAT,
       "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
     );
     `;
 
   console.log(`Created "locations" table`);
 
-  const locations = await Promise.all([
-    sql`
-          INSERT INTO locations (residency, venue, address)
-          VALUES (null, 'Hawksmoor', '157A Commercial St, London E1 6BJ')
-      `,
-    sql`
-          INSERT INTO locations (residency, venue, address)
-          VALUES ('Lucky Fried Chicken', 'Grafton Kentish Town', '20 Prince of Wales Road, Kentish Town, London, NW5 3LG')
-    `,
-    sql`
-          INSERT INTO locations (residency, venue, address)
-          VALUES (null, 'Pitt Cue Co', '1 Newburgh St, Carnaby, London W1F 7RB')
-    `,
-  ]);
-  console.log(`Seeded ${locations.length} locations`);
-
   return {
     createTable,
-    locations,
   };
 }
 
@@ -54,4 +38,34 @@ export async function getLocations() {
   }
 
   return locationsData;
+}
+
+export async function getSingleLocation(name: string | undefined) {
+  if (!name) return;
+
+  let location;
+
+  try {
+    location = await sql`SELECT * FROM locations WHERE venue = ${name}`;
+  } catch (e: any) {
+    console.error("Something whent wrong fetching that location: ", e);
+  }
+  return location;
+}
+
+export async function setLocation(locationData: VenueWithResidency) {
+  const { residency, name, lat, lng } = locationData;
+
+  const findLocation = await sql`
+    SELECT venue FROM locations WHERE venue = ${name}
+  `;
+
+  if (findLocation.rowCount >= 1) return;
+
+  const addLocation = await sql`
+    INSERT INTO locations (residency, venue, lat, lng)
+    VALUES (${residency}, ${name}, ${lat}, ${lng})
+  `;
+
+  return addLocation;
 }
