@@ -28,6 +28,8 @@ export async function getEvents() {
     e.date,
     l.residency,
     l.venue,
+    l.lat,
+    l.lng,
     u.name AS chosenBy
   FROM
     events e
