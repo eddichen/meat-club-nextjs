@@ -3,13 +3,13 @@
 import { useCallback, useEffect, useState } from "react";
 import {
   AdvancedMarker,
-  Map,
   useMap,
   useMapsLibrary,
 } from "@vis.gl/react-google-maps";
 import { Autocomplete, TextField, Box } from "@mui/material";
 import { HandleVenueProps } from "./add-event-form";
 import MapHandler from "./map-handler";
+import { LocationMap } from "./location-map";
 
 interface VenueFieldProps {
   handleVenue: ({ name, venue }: HandleVenueProps) => void;
@@ -131,13 +131,7 @@ export default function VenueField({ handleVenue }: VenueFieldProps) {
   return (
     <>
       <Box sx={{ height: "360px", mb: 2 }}>
-        <Map
-          mapId="61baed150fa492b8"
-          defaultCenter={{ lat: 51.5285262, lng: -0.2664021 }}
-          defaultZoom={11}
-          gestureHandling={"greedy"}
-          disableDefaultUI={true}
-        >
+        <LocationMap>
           {selectedPlace && (
             <AdvancedMarker
               key={selectedPlace.place_id}
@@ -149,7 +143,7 @@ export default function VenueField({ handleVenue }: VenueFieldProps) {
             />
           )}
           <MapHandler place={selectedPlace} />
-        </Map>
+        </LocationMap>
       </Box>
       <Autocomplete
         options={getOptions(predictionResults)}
