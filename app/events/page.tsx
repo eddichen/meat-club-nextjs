@@ -10,10 +10,10 @@ export default async function Events() {
 
   return (
     <>
-      <EventsMap events={events as Event[]} />
+      <EventsMap events={events as MeatClubEvent[]} />
       <h1>Meat Club Events</h1>
       <EventsTable>
-        <EventsItem events={events as Event[]} />
+        <EventsItem events={events as MeatClubEvent[]} />
       </EventsTable>
     </>
   );

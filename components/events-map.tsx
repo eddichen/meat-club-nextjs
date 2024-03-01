@@ -4,14 +4,14 @@ import { APIProvider, AdvancedMarker } from "@vis.gl/react-google-maps";
 import { LocationMap } from "./location-map";
 import { Box } from "@mui/material";
 
-export const EventsMap = ({ events }: { events: Event[] }) => {
+export const EventsMap = ({ events }: { events: MeatClubEvent[] }) => {
   const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "";
 
   return (
     <APIProvider apiKey={API_KEY}>
       <Box sx={{ height: "360px", mb: 2 }}>
         <LocationMap>
-          {events.map((event: Event, i: number) => (
+          {events.map((event: MeatClubEvent, i: number) => (
             <AdvancedMarker
               key={i}
               position={{

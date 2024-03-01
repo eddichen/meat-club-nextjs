@@ -36,7 +36,7 @@ interface EventData {
   chosenBy: number;
 }
 
-interface Event {
+interface MeatClubEvent {
   eventnumber: number;
   date: string;
   residency: string | null;
