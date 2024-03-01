@@ -10,7 +10,7 @@ interface Venue {
 }
 
 interface VenueWithResidency extends Venue {
-  residency?: string | null;
+  residency: string | null;
 }
 
 interface Location {
@@ -22,11 +22,11 @@ interface Location {
 }
 
 interface EventsFormData {
-  venue: Venue;
-  date: string;
   eventNumber: number;
+  date: string;
+  residency: string | null;
+  venue: Venue;
   chosenBy: number;
-  residency?: string;
 }
 
 interface EventData {
@@ -34,5 +34,14 @@ interface EventData {
   date: string;
   venueId: number;
   chosenBy: number;
-  residency?: string;
+}
+
+interface Event {
+  eventnumber: number;
+  date: string;
+  residency: string | null;
+  venue: string;
+  lat: number;
+  lng: number;
+  chosenby: number;
 }
