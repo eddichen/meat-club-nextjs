@@ -6,19 +6,14 @@ import { QueryResultRow } from "@vercel/postgres";
 
 type ChosenByFieldProps = {
   getUserOptions: () => Promise<QueryResultRow[]>;
-  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export default function ChosenByField({
-  getUserOptions,
-  handleChange,
-}: ChosenByFieldProps) {
+export default function ChosenByField({ getUserOptions }: ChosenByFieldProps) {
   const [chosenByValue, setChosenByValue] = useState("");
   const [users, setUsers] = useState<Users[]>([]);
 
   const handleUserChange = (event: any) => {
     setChosenByValue(event.target.value);
-    handleChange(event);
   };
 
   useEffect(() => {

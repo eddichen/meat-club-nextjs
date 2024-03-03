@@ -9,12 +9,7 @@ import { QueryResultRow } from "@vercel/postgres";
 
 type AddEventFormProps = {
   getUserOptions: () => Promise<QueryResultRow[]>;
-  addLocation: (eventData: EventsFormData) => void;
-};
-
-export type HandleVenueProps = {
-  name: string;
-  venue: Venue;
+  addLocation: (venueData: Venue, eventData: FormData) => void;
 };
 
 export default function AddEventForm({
@@ -22,28 +17,18 @@ export default function AddEventForm({
   addLocation,
 }: AddEventFormProps) {
   const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "";
-  const [eventData, setEventData] = useState({} as EventsFormData);
+  const [venueData, setVenueData] = useState({} as Venue);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setEventData((prevData) => ({ ...prevData, [name]: value }));
+  const handleVenue = ({ name, lat, lng }: Venue) => {
+    setVenueData({ name, lat, lng });
   };
 
-  const handleVenue = ({ name, venue }: HandleVenueProps) => {
-    setEventData((prevData) => ({ ...prevData, [name]: venue }));
-  };
-
-  const handleSubmit = (event: React.SyntheticEvent) => {
-    event.preventDefault();
-    if (Object.keys(eventData).length < 1)
-      return console.error("There has been an error retreiving the data");
-    addLocation(eventData);
-  };
+  const addLocationWithVenue = addLocation.bind(null, venueData);
 
   return (
     <APIProvider apiKey={API_KEY}>
       <Container maxWidth="xs">
-        <form onSubmit={handleSubmit}>
+        <form action={addLocationWithVenue}>
           <Grid container direction="column" spacing={2}>
             <Grid item>
               <VenueField handleVenue={handleVenue} />
@@ -54,7 +39,6 @@ export default function AddEventForm({
                 helperText="For Pop-ups and Residencies in Venues"
                 fullWidth
                 name="residency"
-                onInput={handleChange}
               />
             </Grid>
             <Grid item>
@@ -65,7 +49,6 @@ export default function AddEventForm({
                 fullWidth
                 name="date"
                 InputLabelProps={{ shrink: true }}
-                onInput={handleChange}
               />
             </Grid>
             <Grid item>
@@ -73,14 +56,10 @@ export default function AddEventForm({
                 label="Meat Club Number"
                 fullWidth
                 name="eventNumber"
-                onInput={handleChange}
               />
             </Grid>
             <Grid item>
-              <ChosenByField
-                getUserOptions={getUserOptions}
-                handleChange={handleChange}
-              />
+              <ChosenByField getUserOptions={getUserOptions} />
             </Grid>
             <Grid item>
               <Button type="submit" variant="contained" size="large" fullWidth>

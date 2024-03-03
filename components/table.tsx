@@ -23,6 +23,9 @@ export default async function Table() {
                 <p>{event.date}</p>
                 <p>{event.residency}</p>
                 <p>{event.venue}</p>
+                <p>
+                  {event.lat}, {event.lng}
+                </p>
                 <p>{event.address}</p>
                 <p>{event.chosenby}</p>
               </div>

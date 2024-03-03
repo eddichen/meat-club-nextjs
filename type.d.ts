@@ -10,7 +10,7 @@ interface Venue {
 }
 
 interface VenueWithResidency extends Venue {
-  residency?: string | null;
+  residency: string | null;
 }
 
 interface Location {
@@ -21,18 +21,19 @@ interface Location {
   createdAt: string;
 }
 
-interface EventsFormData {
-  venue: Venue;
-  date: string;
-  eventNumber: number;
-  chosenBy: number;
-  residency?: string;
-}
-
 interface EventData {
-  eventNumber: number;
+  eventNumber: string;
   date: string;
   venueId: number;
-  chosenBy: number;
-  residency?: string;
+  chosenBy: string;
+}
+
+interface MeatClubEvent {
+  eventnumber: number;
+  date: string;
+  residency: string | null;
+  venue: string;
+  lat: number;
+  lng: number;
+  chosenby: number;
 }
