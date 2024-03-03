@@ -12,17 +12,26 @@ export default function AddEvent() {
     return users;
   };
 
-  const addLocation = async (eventData: EventsFormData) => {
+  const addLocation = async (venueData: Venue, eventData: FormData) => {
     "use server";
 
-    const { venue, residency = null, eventNumber, date, chosenBy } = eventData;
+    const rawFormData = {
+      residency: eventData.get("residency"),
+      eventNumber: eventData.get("eventNumber"),
+      date: eventData.get("date"),
+      chosenBy: eventData.get("chosenBy"),
+    };
+
+    const { residency, eventNumber, date, chosenBy } = rawFormData;
+    console.log(rawFormData, venueData);
 
     try {
+      if (!venueData) throw new Error();
       await setLocation({
-        residency,
-        name: venue.name,
-        lat: venue.lat,
-        lng: venue.lng,
+        residency: residency as string,
+        name: venueData.name,
+        lat: venueData.lat,
+        lng: venueData.lng,
       });
     } catch (e) {
       throw new Error("There has been an error setting the location");
@@ -31,17 +40,23 @@ export default function AddEvent() {
     let venueId: number;
 
     try {
-      const venueData = await getSingleLocation(venue.name);
-      venueId = venueData && venueData.rows[0].id;
+      const singleVenue = await getSingleLocation(venueData.name);
+      venueId = singleVenue && singleVenue.rows[0].id;
     } catch (e) {
       throw new Error("There has been an error fetching the location");
     }
 
     try {
-      await addEvent({ eventNumber, date, venueId, chosenBy });
+      await addEvent({
+        eventNumber: eventNumber as string,
+        date: date as string,
+        venueId,
+        chosenBy: chosenBy as string,
+      });
     } catch (e) {
       throw new Error("There has been an error saving the event");
     }
+    return;
   };
 
   return (

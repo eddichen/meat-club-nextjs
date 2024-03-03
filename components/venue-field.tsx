@@ -7,12 +7,11 @@ import {
   useMapsLibrary,
 } from "@vis.gl/react-google-maps";
 import { Autocomplete, TextField, Box } from "@mui/material";
-import { HandleVenueProps } from "./add-event-form";
 import MapHandler from "./map-handler";
 import { LocationMap } from "./location-map";
 
 interface VenueFieldProps {
-  handleVenue: ({ name, venue }: HandleVenueProps) => void;
+  handleVenue: ({ name, lat, lng }: Venue) => void;
 }
 
 const getOptions = (
@@ -72,7 +71,6 @@ export default function VenueField({ handleVenue }: VenueFieldProps) {
 
   const onInputChange = useCallback(
     (value: string) => {
-      console.log(value);
       setSearchValue(value);
       fetchPredictions(value);
     },
@@ -107,12 +105,9 @@ export default function VenueField({ handleVenue }: VenueFieldProps) {
         setFetchingData(false);
 
         handleVenue({
-          name: "venue",
-          venue: {
-            name: placeDetails?.name,
-            lat: placeDetails?.geometry?.location?.lat(),
-            lng: placeDetails?.geometry?.location?.lng(),
-          },
+          name: placeDetails?.name,
+          lat: placeDetails?.geometry?.location?.lat(),
+          lng: placeDetails?.geometry?.location?.lng(),
         });
       };
 
