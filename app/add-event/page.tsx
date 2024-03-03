@@ -23,7 +23,6 @@ export default function AddEvent() {
     };
 
     const { residency, eventNumber, date, chosenBy } = rawFormData;
-    console.log(rawFormData, venueData);
 
     try {
       if (!venueData) throw new Error();
