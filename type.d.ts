@@ -21,19 +21,11 @@ interface Location {
   createdAt: string;
 }
 
-interface EventsFormData {
-  eventNumber: number;
-  date: string;
-  residency: string | null;
-  venue: Venue;
-  chosenBy: number;
-}
-
 interface EventData {
-  eventNumber: number;
+  eventNumber: string;
   date: string;
   venueId: number;
-  chosenBy: number;
+  chosenBy: string;
 }
 
 interface MeatClubEvent {
