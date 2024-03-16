@@ -2,6 +2,7 @@ import { getUsers } from "@/lib/users";
 import { getSingleLocation, setLocation } from "@/lib/locations";
 import { addEvent } from "@/lib/events";
 import AddEventForm from "@/components/add-event-form";
+import { revalidatePath } from "next/cache";
 
 export default function AddEvent() {
   const getUserOptions = async () => {
@@ -55,6 +56,7 @@ export default function AddEvent() {
     } catch (e) {
       throw new Error("There has been an error saving the event");
     }
+    revalidatePath("/events");
     return;
   };
 
