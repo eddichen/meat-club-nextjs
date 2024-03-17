@@ -6,15 +6,26 @@ import { QueryResultRow } from "@vercel/postgres";
 
 type ChosenByFieldProps = {
   getUserOptions: () => Promise<QueryResultRow[]>;
+  resetField: boolean;
+  unsetResetField: () => void;
 };
 
-export default function ChosenByField({ getUserOptions }: ChosenByFieldProps) {
+export default function ChosenByField({
+  getUserOptions,
+  resetField,
+  unsetResetField,
+}: ChosenByFieldProps) {
   const [chosenByValue, setChosenByValue] = useState("");
   const [users, setUsers] = useState<Users[]>([]);
 
   const handleUserChange = (event: any) => {
     setChosenByValue(event.target.value);
   };
+
+  useEffect(() => {
+    if (resetField) setChosenByValue("");
+    unsetResetField();
+  }, [resetField, unsetResetField]);
 
   useEffect(() => {
     const getUsers = async () => {
