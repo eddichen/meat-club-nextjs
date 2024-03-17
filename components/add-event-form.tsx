@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { APIProvider } from "@vis.gl/react-google-maps";
-import { Container, TextField, Button, Grid } from "@mui/material";
+import { Container, TextField, Button, Grid, Snackbar } from "@mui/material";
 import ChosenByField from "./chosen-by-field";
 import VenueField from "./venue-field";
 import { QueryResultRow } from "@vercel/postgres";
@@ -19,6 +19,8 @@ export default function AddEventForm({
   const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "";
   const [venueData, setVenueData] = useState({} as Venue);
   const [resetField, setResetField] = useState(false);
+  const [open, setOpen] = useState(false);
+
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleVenue = ({ name, lat, lng }: Venue) => {
@@ -31,8 +33,13 @@ export default function AddEventForm({
 
   const handleSubmit = async () => {
     await addLocation.bind(null, venueData);
+    setOpen(true);
     setResetField(true);
     formRef.current?.reset();
+  };
+
+  const handleClose = (): void => {
+    setOpen(false);
   };
 
   return (
@@ -86,6 +93,13 @@ export default function AddEventForm({
             </Grid>
           </Grid>
         </form>
+        <Snackbar
+          open={open}
+          onClose={handleClose}
+          autoHideDuration={5000}
+          message={`${venueData.name} added`}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        />
       </Container>
     </APIProvider>
   );
