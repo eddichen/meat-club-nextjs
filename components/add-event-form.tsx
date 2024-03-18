@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { APIProvider } from "@vis.gl/react-google-maps";
-import { Container, TextField, Button, Grid } from "@mui/material";
+import { Container, TextField, Button, Grid, Snackbar } from "@mui/material";
 import ChosenByField from "./chosen-by-field";
 import VenueField from "./venue-field";
 import { QueryResultRow } from "@vercel/postgres";
 
 type AddEventFormProps = {
   getUserOptions: () => Promise<QueryResultRow[]>;
-  addLocation: (venueData: Venue, eventData: FormData) => void;
+  addLocation: (venueData: Venue, eventData: FormData) => Promise<void>;
 };
 
 export default function AddEventForm({
@@ -18,20 +18,41 @@ export default function AddEventForm({
 }: AddEventFormProps) {
   const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "";
   const [venueData, setVenueData] = useState({} as Venue);
+  const [resetField, setResetField] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleVenue = ({ name, lat, lng }: Venue) => {
     setVenueData({ name, lat, lng });
   };
 
-  const addLocationWithVenue = addLocation.bind(null, venueData);
+  const unsetResetField = () => {
+    setResetField(false);
+  };
+
+  const handleSubmit = async (formData: FormData) => {
+    await addLocation(venueData, formData);
+    setOpen(true);
+    setResetField(true);
+    formRef.current?.reset();
+  };
+
+  const handleClose = (): void => {
+    setOpen(false);
+  };
 
   return (
     <APIProvider apiKey={API_KEY}>
       <Container maxWidth="xs">
-        <form action={addLocationWithVenue}>
+        <form ref={formRef} action={handleSubmit}>
           <Grid container direction="column" spacing={2}>
             <Grid item>
-              <VenueField handleVenue={handleVenue} />
+              <VenueField
+                handleVenue={handleVenue}
+                resetField={resetField}
+                unsetResetField={unsetResetField}
+              />
             </Grid>
             <Grid item>
               <TextField
@@ -59,7 +80,11 @@ export default function AddEventForm({
               />
             </Grid>
             <Grid item>
-              <ChosenByField getUserOptions={getUserOptions} />
+              <ChosenByField
+                getUserOptions={getUserOptions}
+                resetField={resetField}
+                unsetResetField={unsetResetField}
+              />
             </Grid>
             <Grid item>
               <Button type="submit" variant="contained" size="large" fullWidth>
@@ -68,6 +93,13 @@ export default function AddEventForm({
             </Grid>
           </Grid>
         </form>
+        <Snackbar
+          open={open}
+          onClose={handleClose}
+          autoHideDuration={5000}
+          message={`${venueData.name} added`}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        />
       </Container>
     </APIProvider>
   );

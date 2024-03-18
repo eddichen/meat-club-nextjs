@@ -12,6 +12,8 @@ import { LocationMap } from "./location-map";
 
 interface VenueFieldProps {
   handleVenue: ({ name, lat, lng }: Venue) => void;
+  resetField: boolean;
+  unsetResetField: () => void;
 }
 
 const getOptions = (
@@ -21,7 +23,11 @@ const getOptions = (
   return results.map((result) => result.description);
 };
 
-export default function VenueField({ handleVenue }: VenueFieldProps) {
+export default function VenueField({
+  handleVenue,
+  resetField,
+  unsetResetField,
+}: VenueFieldProps) {
   const map = useMap();
   const placesLibrary = useMapsLibrary("places");
 
@@ -38,6 +44,11 @@ export default function VenueField({ handleVenue }: VenueFieldProps) {
   const [selectedPlace, setSelectedPlace] =
     useState<google.maps.places.PlaceResult | null>(null);
   const [fetchingData, setFetchingData] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (resetField) setSearchValue("");
+    unsetResetField();
+  }, [resetField, unsetResetField]);
 
   useEffect(() => {
     if (!placesLibrary || !map) return;
