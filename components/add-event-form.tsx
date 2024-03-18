@@ -9,7 +9,7 @@ import { QueryResultRow } from "@vercel/postgres";
 
 type AddEventFormProps = {
   getUserOptions: () => Promise<QueryResultRow[]>;
-  addLocation: (venueData: Venue, eventData: FormData) => void;
+  addLocation: (venueData: Venue, eventData: FormData) => Promise<void>;
 };
 
 export default function AddEventForm({
@@ -31,8 +31,8 @@ export default function AddEventForm({
     setResetField(false);
   };
 
-  const handleSubmit = async () => {
-    await addLocation.bind(null, venueData);
+  const handleSubmit = async (formData: FormData) => {
+    await addLocation(venueData, formData);
     setOpen(true);
     setResetField(true);
     formRef.current?.reset();

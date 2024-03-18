@@ -53,11 +53,11 @@ export default function AddEvent() {
         venueId,
         chosenBy: chosenBy as string,
       });
+      revalidatePath("/events");
+      return;
     } catch (e) {
       throw new Error("There has been an error saving the event");
     }
-    revalidatePath("/events");
-    return;
   };
 
   return (
