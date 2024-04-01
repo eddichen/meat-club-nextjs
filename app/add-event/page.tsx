@@ -1,10 +1,17 @@
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import { auth } from "@/auth";
+
 import { getUsers } from "@/lib/users";
 import { getSingleLocation, setLocation } from "@/lib/locations";
 import { addEvent } from "@/lib/events";
 import AddEventForm from "@/components/add-event-form";
-import { revalidatePath } from "next/cache";
 
-export default function AddEvent() {
+export default async function AddEvent() {
+  const session = await auth();
+
+  if (!session) redirect("/api/auth/signin");
+
   const getUserOptions = async () => {
     "use server";
 
@@ -61,6 +68,13 @@ export default function AddEvent() {
   };
 
   return (
-    <AddEventForm getUserOptions={getUserOptions} addLocation={addLocation} />
+    <>
+      {session && (
+        <AddEventForm
+          getUserOptions={getUserOptions}
+          addLocation={addLocation}
+        />
+      )}
+    </>
   );
 }
