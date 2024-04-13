@@ -36,7 +36,7 @@ export async function getEvents() {
     LEFT JOIN locations l ON l.id = e.venueId
     LEFT JOIN users u ON u.id = e.chosenBy
   ORDER BY
-    e.eventNumber
+    e.eventNumber DESC
 `;
 
   try {

@@ -4,8 +4,8 @@ import { getFormattedDate } from "@/utils/date";
 export default function EventsItem({ events }: { events: MeatClubEvent[] }) {
   return (
     <>
-      {events.map((event, i) => (
-        <TableRow key={i}>
+      {events.map((event) => (
+        <TableRow key={event.eventnumber}>
           <TableCell>{event.eventnumber}</TableCell>
           <TableCell data-testid="event-date">
             {getFormattedDate(event.date)}
