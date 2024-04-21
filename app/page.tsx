@@ -1,16 +1,21 @@
-import { Suspense } from "react";
-import Table from "@/components/table";
+import { EventsByUser } from "@/components/events-by-user";
+import { getEvents } from "@/lib/events";
+import { getUsers } from "@/lib/users";
 
 export const runtime = "edge";
 export const preferredRegion = "home";
 export const dynamic = "force-dynamic";
 
-export default function Home() {
+export default async function Home() {
+  const usersData = await getUsers();
+  const eventsData = await getEvents();
+
+  const { rows: users } = usersData;
+  const { rows: events } = eventsData;
+
   return (
     <main>
-      <Suspense fallback="loading...">
-        <Table />
-      </Suspense>
+      <EventsByUser users={users as Users[]} events={events as EventData[]} />
     </main>
   );
 }
