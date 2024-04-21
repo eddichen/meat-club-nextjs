@@ -58,10 +58,10 @@ export async function getEvents() {
 }
 
 export async function addEvent(eventData: EventData) {
-  const { eventNumber, date, venueId, chosenBy } = eventData;
+  const { eventnumber, date, venueId, chosenby } = eventData;
 
   const addEventRow = await sql`
   INSERT INTO events (eventNumber, date, venueId, chosenBy)
-  VALUES (${eventNumber}, ${date}, ${venueId}, ${chosenBy})
+  VALUES (${eventnumber}, ${date}, ${venueId}, ${chosenby})
   `;
 }
