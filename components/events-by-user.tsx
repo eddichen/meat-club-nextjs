@@ -57,6 +57,7 @@ export const EventsByUser = ({ users, events }: EventByUserProps) => {
       {
         label: "Events chosen by user",
         data: userEvents.map((event) => event.events),
+        backgroundColor: ["rgba(255, 99, 132, 0.2)"],
       },
     ],
   };
