@@ -33,19 +33,23 @@ const options = {
     },
     title: {
       display: true,
-      text: "Chart.js Bar Chart",
+      text: "Number of Meatclub venues picked",
     },
   },
 };
 
 export const EventsByUser = ({ users, events }: EventByUserProps) => {
-  const userEvents = users.map((user) => {
-    const eventsByUser = events.filter((event) => event.chosenby === user.name);
-    return {
-      name: user.name,
-      events: eventsByUser.length,
-    };
-  });
+  const userEvents = users
+    .map((user) => {
+      const eventsByUser = events.filter(
+        (event) => event.chosenby === user.name,
+      );
+      return {
+        name: user.name,
+        events: eventsByUser.length,
+      };
+    })
+    .sort((a, b) => b.events - a.events);
 
   const data = {
     labels: userEvents.map((user) => user.name),
