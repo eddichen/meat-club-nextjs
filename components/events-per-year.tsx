@@ -44,7 +44,7 @@ const options = {
       text: "Number of Meatclubs Per Year",
     },
   },
-  indexAxis: "y",
+  indexAxis: "y" as const,
 };
 
 export const EventsPerYear = ({ events }: EventsPerYearProps) => {
