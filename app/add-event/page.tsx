@@ -25,12 +25,12 @@ export default async function AddEvent() {
 
     const rawFormData = {
       residency: eventData.get("residency"),
-      eventNumber: eventData.get("eventNumber"),
+      eventnumber: eventData.get("eventNumber"),
       date: eventData.get("date"),
       chosenBy: eventData.get("chosenBy"),
     };
 
-    const { residency, eventNumber, date, chosenBy } = rawFormData;
+    const { residency, eventnumber, date, chosenBy } = rawFormData;
 
     try {
       if (!venueData) throw new Error();
@@ -55,10 +55,10 @@ export default async function AddEvent() {
 
     try {
       await addEvent({
-        eventNumber: eventNumber as string,
+        eventnumber: eventnumber as string,
         date: date as string,
         venueId,
-        chosenBy: chosenBy as string,
+        chosenby: chosenBy as string,
       });
       revalidatePath("/events");
       return;

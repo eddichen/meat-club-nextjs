@@ -1,6 +1,7 @@
 type Users = {
   id: number;
   name: string;
+  email: string;
 };
 
 interface Venue {
@@ -21,19 +22,14 @@ interface Location {
   createdAt: string;
 }
 
-interface EventData {
-  eventNumber: string;
+type EventData = {
+  eventnumber: string;
   date: string;
   venueId: number;
-  chosenBy: string;
-}
+  chosenby: string;
+};
 
-interface MeatClubEvent {
-  eventnumber: number;
-  date: string;
-  residency: string | null;
-  venue: string;
-  lat: number;
-  lng: number;
-  chosenby: number;
-}
+type MeatClubEvent = Omit<EventData, "venueId"> &
+  Pick<Location, "venue" | "lat" | "lng"> & {
+    residency: string | null;
+  };
