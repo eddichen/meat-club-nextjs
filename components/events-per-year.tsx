@@ -36,6 +36,7 @@ ChartJS.register(
 ChartJS.defaults.font.size = 16;
 
 const options = {
+  aspectRatio: 0.7,
   plugins: {
     legend: {
       display: false,
@@ -45,6 +46,9 @@ const options = {
     },
   },
   indexAxis: "y" as const,
+  layout: {
+    padding: 10,
+  },
 };
 
 export const EventsPerYear = ({ events }: EventsPerYearProps) => {
