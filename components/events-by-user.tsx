@@ -110,10 +110,18 @@ export const EventsByUser = ({ users, events }: EventByUserProps) => {
                   <Typography>{user.name}</Typography>
                 </Stack>
               </Grid>
-              <Grid xs={2}>
-                <Typography sx={{ fontSize: "1.5rem", textAlign: "right" }}>
-                  {user.events}
-                </Typography>
+              <Grid xs={3}>
+                <Stack
+                  direction="row"
+                  alignItems="baseline"
+                  spacing={0.5}
+                  justifyContent="flex-end"
+                >
+                  <Typography sx={{ fontSize: "1.5rem", textAlign: "right" }}>
+                    {user.events}
+                  </Typography>
+                  <Typography sx={{ fontsize: "0.8rem" }}>events</Typography>
+                </Stack>
               </Grid>
             </Grid>
           </ListItem>
