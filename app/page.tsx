@@ -1,4 +1,5 @@
 import { EventsByUser } from "@/components/events-by-user";
+import { EventsPerYear } from "@/components/events-per-year";
 import { getEvents } from "@/lib/events";
 import { getUsers } from "@/lib/users";
 
@@ -16,6 +17,7 @@ export default async function Home() {
   return (
     <main>
       <EventsByUser users={users as Users[]} events={events as EventData[]} />
+      <EventsPerYear events={events as EventData[]} />
     </main>
   );
 }

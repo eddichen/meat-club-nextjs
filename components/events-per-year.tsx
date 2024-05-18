@@ -33,15 +33,15 @@ ChartJS.register(
   Legend,
 );
 
+ChartJS.defaults.font.size = 16;
+
 const options = {
-  responsive: true,
   plugins: {
     legend: {
-      position: "top" as const,
+      display: false,
     },
     title: {
-      display: true,
-      text: "Number of Meatclubs Per Year",
+      display: false,
     },
   },
   indexAxis: "y" as const,
@@ -70,9 +70,11 @@ export const EventsPerYear = ({ events }: EventsPerYearProps) => {
     labels: eventsPerYear.map((eventsYear) => eventsYear.year),
     datasets: [
       {
-        label: "Events per year",
+        backgroundColor: ["#FF584D"],
+        barPercentage: 1,
+        categoryPercentage: 1,
         data: eventsPerYear.map((eventsYear) => eventsYear.events),
-        backgroundColor: ["rgba(255, 99, 132, 0.2)"],
+        label: "Events per year",
       },
     ],
   };
