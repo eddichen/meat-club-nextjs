@@ -2,6 +2,8 @@ import { EventsByUser } from "@/components/events-by-user";
 import { EventsPerYear } from "@/components/events-per-year";
 import { getEvents } from "@/lib/events";
 import { getUsers } from "@/lib/users";
+import { Card, CardHeader, Container, Typography } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
 
 export const runtime = "edge";
 export const preferredRegion = "home";
@@ -16,8 +18,25 @@ export default async function Home() {
 
   return (
     <main>
-      <EventsByUser users={users as Users[]} events={events as EventData[]} />
-      <EventsPerYear events={events as EventData[]} />
+      <Container>
+        <Grid container spacing={4}>
+          <Grid xs={12} md={6}>
+            <Card variant="outlined">
+              <CardHeader title="Meatclubs Chosen Leaderboard" />
+              <EventsByUser
+                users={users as Users[]}
+                events={events as EventData[]}
+              />
+            </Card>
+          </Grid>
+          <Grid xs={12} md={6}>
+            <Card variant="outlined">
+              <CardHeader title="Meatclubs Per Year" />
+              <EventsPerYear events={events as EventData[]} />
+            </Card>
+          </Grid>
+        </Grid>
+      </Container>
     </main>
   );
 }
