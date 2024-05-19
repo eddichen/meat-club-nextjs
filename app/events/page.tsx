@@ -11,7 +11,6 @@ export default async function Events() {
 
   return (
     <Container maxWidth="lg">
-      <EventsMap events={events as MeatClubEvent[]} />
       <h1>Meat Club Events</h1>
       <EventsTable>
         <EventsItem events={events as MeatClubEvent[]} />
