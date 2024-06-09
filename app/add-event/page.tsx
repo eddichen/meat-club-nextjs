@@ -61,6 +61,7 @@ export default async function AddEvent() {
         chosenby: chosenBy as string,
       });
       revalidatePath("/events");
+      revalidatePath("/");
       return;
     } catch (e) {
       throw new Error("There has been an error saving the event");
