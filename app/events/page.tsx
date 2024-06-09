@@ -1,5 +1,4 @@
 import EventsItem from "@/components/events-item";
-import { EventsMap } from "@/components/events-map";
 import EventsTable from "@/components/events-table";
 import { getEvents } from "@/lib/events";
 import { Container } from "@mui/material";
