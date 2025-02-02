@@ -28,16 +28,14 @@ export const EventsMap = ({ events }: { events: MeatClubEvent[] }) => {
         <LocationMap>
           <EventsMapBounds events={events} />
           {events.map((event: MeatClubEvent, i: number) => (
-            <>
-              <AdvancedMarker
-                key={i}
-                position={{
-                  lat: event.lat,
-                  lng: event.lng,
-                }}
-                onClick={() => handleMarkerClick(event)}
-              />
-            </>
+            <AdvancedMarker
+              key={i}
+              position={{
+                lat: event.lat,
+                lng: event.lng,
+              }}
+              onClick={() => handleMarkerClick(event)}
+            />
           ))}
           {infoWindowShown && (
             <InfoWindow
