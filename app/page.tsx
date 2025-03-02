@@ -1,6 +1,7 @@
 import { EventsByUser } from "@/components/events-by-user";
 import { EventsMap } from "@/components/events-map";
 import { EventsPerYear } from "@/components/events-per-year";
+import { NextEvent } from "@/components/next-event";
 import { getEvents } from "@/lib/events";
 import { getUsers } from "@/lib/users";
 import { Card, CardHeader, Container } from "@mui/material";
@@ -21,7 +22,15 @@ export default async function Home() {
     <main>
       <Container>
         <Grid container spacing={4}>
-          <Grid xs={12}>
+          <Grid xs={12} md={6}>
+            <Card variant="outlined">
+              <NextEvent
+                users={users as Users[]}
+                events={events as EventData[]}
+              />
+            </Card>
+          </Grid>
+          <Grid xs={12} md={6}>
             <Card variant="outlined">
               <EventsMap events={events as MeatClubEvent[]} />
             </Card>
