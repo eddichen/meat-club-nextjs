@@ -14,7 +14,7 @@ export function NextEvent({ users, events }: NextEventProps) {
   const lastEventUserIndex =
     lastEventChosenBy && orderedUsers.indexOf(lastEventChosenBy);
   const nextEventUserIndex =
-    lastEventUserIndex && (lastEventUserIndex + 1) % orderedUsers.length;
+    (lastEventUserIndex && (lastEventUserIndex + 1) % orderedUsers.length) || 0;
 
   return (
     <>
@@ -23,14 +23,10 @@ export function NextEvent({ users, events }: NextEventProps) {
       >
         <Typography>Next Meat Club</Typography>
         <Typography variant="h2">{`${events[0].eventnumber + 1}`}</Typography>
-        {nextEventUserIndex && (
-          <>
-            <Typography>to be chosen by</Typography>
-            <Typography variant="h4">
-              {orderedUsers[nextEventUserIndex].name}
-            </Typography>
-          </>
-        )}
+        <Typography>to be chosen by</Typography>
+        <Typography variant="h4">
+          {orderedUsers[nextEventUserIndex].name}
+        </Typography>
       </CardContent>
     </>
   );
