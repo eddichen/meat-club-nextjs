@@ -2,6 +2,8 @@ type Users = {
   id: number;
   name: string;
   email: string;
+  is_active: boolean;
+  order: number;
 };
 
 interface Venue {
