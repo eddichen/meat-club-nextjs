@@ -7,14 +7,14 @@ interface NextEventProps {
 
 export function NextEvent({ users, events }: NextEventProps) {
   const activeUsers = users.filter((user) => user.is_active);
-  const orderedUsers = activeUsers.sort();
+  const orderedUsers = activeUsers.sort((a, b) => a.order - b.order);
   const lastEventChosenBy = users.find(
     (user) => user.name === events[0].chosenby,
   );
   const lastEventUserIndex =
-    lastEventChosenBy && orderedUsers.indexOf(lastEventChosenBy);
+    (lastEventChosenBy && orderedUsers.indexOf(lastEventChosenBy)) || 0;
   const nextEventUserIndex =
-    (lastEventUserIndex && (lastEventUserIndex + 1) % orderedUsers.length) || 0;
+    (lastEventUserIndex + 1) % orderedUsers.length || 0;
 
   return (
     <>
