@@ -1,11 +1,11 @@
 import { EventsByUser } from "@/components/events-by-user";
-import { EventsMap } from "@/components/events-map";
 import { EventsPerYear } from "@/components/events-per-year";
 import { NextEvent } from "@/components/next-event";
 import { getEvents } from "@/lib/events";
 import { getUsers } from "@/lib/users";
-import { Card, CardHeader, Container } from "@mui/material";
+import { Button, Card, CardHeader, Container, Stack } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
+import Link from "next/link";
 
 export const runtime = "edge";
 export const preferredRegion = "home";
@@ -30,10 +30,21 @@ export default async function Home() {
               />
             </Card>
           </Grid>
-          <Grid xs={12} md={6}>
-            <Card variant="outlined">
-              <EventsMap events={events as MeatClubEvent[]} />
-            </Card>
+          <Grid container xs={12} md={6}>
+            <Grid xs={6}>
+              <Link href="/events">
+                <Button variant="contained" fullWidth>
+                  View All Events
+                </Button>
+              </Link>
+            </Grid>
+            <Grid xs={6}>
+              <Link href="/add-event">
+                <Button variant="contained" fullWidth>
+                  Add New Event
+                </Button>
+              </Link>
+            </Grid>
           </Grid>
           <Grid xs={12} md={6}>
             <Card variant="outlined">
