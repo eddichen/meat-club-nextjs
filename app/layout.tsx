@@ -6,9 +6,9 @@ import "@fontsource/roboto/700.css";
 import "./globals.css";
 
 export const metadata = {
-  metadataBase: new URL("https://postgres-starter.vercel.app"),
-  title: "Vercel Postgres Demo",
-  description: "A simple Next.js app with Vercel Postgres as the database",
+  metadataBase: new URL("https://meat-club.vercel.app/"),
+  title: "Magnificent Cuts - Meat Club",
+  description: "",
 };
 
 export default function RootLayout({
