@@ -22,7 +22,7 @@ export default async function Home() {
     <main>
       <Container>
         <Grid container spacing={4}>
-          <Grid xs={12} md={6}>
+          <Grid xs={12}>
             <Card variant="outlined">
               <NextEvent
                 users={users as Users[]}
@@ -30,7 +30,7 @@ export default async function Home() {
               />
             </Card>
           </Grid>
-          <Grid container xs={12} md={6}>
+          <Grid container xs={12}>
             <Grid xs={6}>
               <Link href="/events">
                 <Button variant="contained" fullWidth>
