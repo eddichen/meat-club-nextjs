@@ -4,6 +4,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "./globals.css";
+import Header from "@/components/header";
 
 export const metadata = {
   metadataBase: new URL("https://meat-club.vercel.app/"),
@@ -20,7 +21,10 @@ export default function RootLayout({
     <>
       <CssBaseline />
       <html lang="en">
-        <body>{children}</body>
+        <body>
+          <Header />
+          {children}
+        </body>
       </html>
     </>
   );
