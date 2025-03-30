@@ -1,15 +1,6 @@
 "use client";
 
-import {
-  AppBar,
-  Box,
-  Button,
-  IconButton,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import Navigation from "./navigation";
+import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import Link from "next/link";
 
