@@ -39,7 +39,7 @@ export default async function Home() {
               </Link>
             </Grid>
             <Grid xs={6}>
-              <Link href="/add-event">
+              <Link href="/events/add">
                 <Button variant="contained" fullWidth>
                   Add New Event
                 </Button>

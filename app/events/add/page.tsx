@@ -13,16 +13,12 @@ export default async function AddEvent() {
   if (!session) redirect("/api/auth/signin");
 
   const getUserOptions = async () => {
-    "use server";
-
     const userData = await getUsers();
     const { rows: users } = userData;
     return users;
   };
 
   const addLocation = async (venueData: Venue, eventData: FormData) => {
-    "use server";
-
     const rawFormData = {
       residency: eventData.get("residency"),
       eventnumber: eventData.get("eventNumber"),
