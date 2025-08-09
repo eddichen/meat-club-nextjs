@@ -33,7 +33,7 @@ export const {
       return false;
     },
     async redirect({ url, baseUrl }) {
-      return `${baseUrl}/add-event`;
+      return `${baseUrl}/events/add`;
     },
   },
 });
