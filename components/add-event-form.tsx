@@ -10,11 +10,13 @@ import { QueryResultRow } from "@vercel/postgres";
 type AddEventFormProps = {
   getUserOptions: () => Promise<QueryResultRow[]>;
   addLocation: (venueData: Venue, eventData: FormData) => Promise<void>;
+  nextEventNumber: string;
 };
 
 export default function AddEventForm({
   getUserOptions,
   addLocation,
+  nextEventNumber,
 }: AddEventFormProps) {
   const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "";
   const [venueData, setVenueData] = useState({} as Venue);
@@ -77,6 +79,7 @@ export default function AddEventForm({
                 label="Meat Club Number"
                 fullWidth
                 name="eventNumber"
+                placeholder={nextEventNumber}
               />
             </Grid>
             <Grid item>

@@ -4,13 +4,24 @@ import { auth } from "@/auth";
 
 import { getUsers } from "@/lib/users";
 import { getSingleLocation, setLocation } from "@/lib/locations";
-import { addEvent } from "@/lib/events";
+import { getEvents, addEvent } from "@/lib/events";
 import AddEventForm from "@/components/add-event-form";
 
 export default async function AddEvent() {
   const session = await auth();
 
   if (!session) redirect("/api/auth/signin");
+
+  // Get events data to calculate next event number
+  const eventsData = await getEvents();
+  const { rows: events } = eventsData;
+
+  // Calculate next event number
+  const maxEventNumber =
+    events.length > 0
+      ? Math.max(...events.map((e: any) => parseInt(e.eventnumber) || 0))
+      : 0;
+  const nextEventNumber = (maxEventNumber + 1).toString();
 
   const getUserOptions = async () => {
     "use server";
@@ -74,6 +85,7 @@ export default async function AddEvent() {
         <AddEventForm
           getUserOptions={getUserOptions}
           addLocation={addLocation}
+          nextEventNumber={nextEventNumber}
         />
       )}
     </>
